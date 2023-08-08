@@ -19,6 +19,7 @@
     cli.pandoc.default
 
     hardware.default
+    hardware.opengl.default
     hardware.nvidia.default
 
     graphical.default
@@ -91,7 +92,6 @@
   # '';
 
   hardware.cpu.amd.updateMicrocode = true;
-  hardware.opengl.enable = true;
 
   networking.networkmanager.enable = false;
   networking.useDHCP = false;

@@ -1,6 +1,4 @@
 {pkgs, ...}: {
-  hardware.opengl.driSupport32Bit = true;
-
   services.xserver = {
     enable = true;
     libinput.enable = true;
