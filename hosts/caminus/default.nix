@@ -54,8 +54,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.availableKernelModules = ["nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod"];
-  boot.initrd.kernelModules = ["nvidia"];
-  boot.kernelModules = ["kvm-amd" "amdgpu"];
+  boot.initrd.kernelModules = ["nvidia" "amdgpu"];
+  boot.kernelModules = ["kvm-amd"];
   boot.kernelParams = [
     # "vfio-pci.ids=1002:73ff,1002:ab28"
   ];
