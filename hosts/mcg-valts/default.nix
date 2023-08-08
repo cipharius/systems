@@ -1,4 +1,8 @@
-{pkgs, presets, ...}: {
+{
+  pkgs,
+  presets,
+  ...
+}: {
   imports = with presets; [
     default
     home
@@ -53,7 +57,7 @@
   };
 
   swapDevices = [
-    { device = "/dev/disk/by-uuid/fc051fc4-8ca6-48cf-a425-6e913c23ed51"; }
+    {device = "/dev/disk/by-uuid/fc051fc4-8ca6-48cf-a425-6e913c23ed51";}
   ];
 
   boot.initrd.luks.devices = {
@@ -62,7 +66,7 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
+  boot.initrd.availableKernelModules = ["nvme" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking.useDHCP = false;
