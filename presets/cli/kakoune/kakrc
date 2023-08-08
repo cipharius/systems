@@ -1,0 +1,129 @@
+# PLUGINS #
+evaluate-commands %sh{
+  kak-lsp --kakoune -s $kak_session
+}
+
+evaluate-commands %sh{
+  kcr init kakoune
+}
+
+# VISUAL #
+
+colorscheme zenburn
+
+add-highlighter global/number-lines number-lines -relative
+add-highlighter global/ wrap -word -indent -marker '↪ ' -width 80
+add-highlighter global/todos regex (?:TODO|NOTE)\s 0:red+bf
+add-highlighter global/trailing-whitespace regex "[ 	]+$" 0:BufferPadding
+
+set-face global PrimarySelection default+bu
+
+set-option global autowrap_fmtcmd 'fmt --width %c'
+set-option -add global ui_options terminal_assistant=cat
+
+# HOOKS #
+
+hook global KakBegin .* %{
+  source "%val{config}/scripts/lf.kak"
+  require-module lf
+}
+
+hook global ModeChange "push:normal:prompt" %{
+  map -docstring 'Insert selection' \
+    window prompt <a-i> "%reg{.}<a-!>"
+}
+
+# hook global WinSetOption "filetype=(?:c|cpp)" %{
+#     map -docstring "describe symbol at point" \
+#     	window user d ": rtags-symbol-info<ret>"
+#     map -docstring "symbol definition" \
+#         window goto s "<esc>: rtags-follow<ret>"
+# }
+
+hook global WinSetOption "filetype=kak" %{
+  map -docstring "evaluate whole buffer" \
+    window user e %{%: eval %reg{.}<ret>}
+}
+
+hook global ModuleLoaded "kitty" %{
+  # Let WM handle terminals
+  unalias global terminal kitty-terminal
+  alias global terminal x11-terminal
+}
+
+hook global WinSetOption filetype=(c|cpp|zig|markdown) %{
+  map window user , %{: enter-user-mode lsp<ret>}
+  echo -debug "Enabling LSP for filtetype %opt{filetype}"
+  lsp-enable-window
+}
+
+hook global WinSetOption filetype=(c|cpp|zig) %{
+  set-option window lsp_auto_highlight_references true
+}
+
+# COMMANDS #
+
+define-command split -params 0 -docstring \
+"Creates new client with current buffer" \
+%{
+  new %sh{
+    line=$(echo "$kak_window_range" | cut -d' ' -f 1)
+    column=$(echo "$kak_window_range" | cut -d' ' -f 2)
+    printf 'buffer -- %s;' "$kak_bufname"
+    printf 'execute-keys %s jvt;' "$line"
+    printf 'select -- %s;' "$kak_selection_desc"
+    printf 'execute-keys V %s <esc>;' "$(printf "%""$column""s" | tr ' ' 'l')"
+  }
+}
+
+define-command change-filetype \
+  -params 1..1 \
+  -docstring "change-filetype <filetype>: set filetype of current buffer" \
+  %{ set buffer filetype %arg{1} }
+
+define-command edit-config \
+  -docstring "edit-config: open the user config file" \
+  %{ edit "%val{config}/kakrc" }
+
+define-command clear-trailing-whitespaces \
+  -docstring "deletes all trailing whitespaces in current buffer" \
+  %{ try %{ execute-keys -draft '%s[ \t]+$<ret>d' } }
+
+define-command ne \
+  -docstring 'go to next error/warning from lsp' \
+  %{ lsp-find-error --include-warnings }
+
+define-command pe \
+  -docstring 'go to previous error/warning from lsp' \
+  %{ lsp-find-error --previous --include-warnings }
+
+define-command ee \
+  -docstring 'go to current error/warning from lsp' \
+  %{ lsp-find-error --include-warnings; lsp-find-error --previous --include-warnings }
+
+define-command lsp-restart \
+  -docstring 'restart lsp server' \
+  %{ lsp-stop; lsp-start }
+
+# OPTIONS #
+
+require-module x11
+declare-option str term 'kitty'
+set-option global termcmd "%opt{term} -e bash -c "
+set-option global indentwidth 2
+set-option global grepcmd 'rg -Hn'
+alias global tag ctags-search
+
+# MAPPINGS #
+
+map global normal / "/(?i)"
+map -docstring 'Calculate selection' \
+    global user = '| calc -p<ret>'
+map -docstring 'System copy' \
+    global user y '<a-|> xsel --input --clipboard<ret>'
+map -docstring 'System paste' \
+    global user p '! xsel --output --clipboard<ret>'
+map -docstring 'lf' \
+    global user d ': enter-user-mode lf-mode<ret>'
+map -docstring 'Split window' \
+    global user s ': split<ret>'
