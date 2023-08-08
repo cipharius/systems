@@ -18,6 +18,7 @@
     cli.openconnect.default
     cli.pandoc.default
 
+    hardware.default
     hardware.nvidia.default
 
     graphical.default
