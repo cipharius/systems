@@ -19,6 +19,15 @@
         defaultNixpkgs = nixpkgs;
         stateVersion = "23.05";
       };
+
+      caminus = {
+        defaultNixpkgs = nixpkgs;
+        stateVersion = "23.05";
+        modules = [
+          inputs.home-manager.nixosModules.default
+          inputs.agenix.nixosModules.default
+        ];
+      };
     };
 
     formatter = self.lib.generateFormatter nixpkgs "alejandra";
@@ -35,5 +44,12 @@
 
     haumea.url = "github:nix-community/haumea/d6a9593ff2160ce29bf6d905e9ccbcecd66baeef";
     haumea.inputs.nixpkgs.follows = "nixpkgs-core";
+
+    home-manager.url = "github:nix-community/home-manager/86dd48d70a2e2c17e84e747ba4faa92453e68d4a";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs-core";
+
+    agenix.url = "github:ryantm/agenix/d8c973fd228949736dedf61b7f8cc1ece3236792";
+    agenix.inputs.home-manager.follows = "home-manager";
+    agenix.inputs.nixpkgs.follows = "nixpkgs-core";
   };
 }
