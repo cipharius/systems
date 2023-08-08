@@ -16,7 +16,6 @@
 
     nixosConfigurations = self.lib.generateNixosConfigurations {
       test = {
-        system = "x86_64-linux";
         defaultNixpkgs = nixpkgs;
         stateVersion = "23.05";
       };
