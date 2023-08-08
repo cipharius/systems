@@ -24,6 +24,11 @@
         defaultNixpkgs = nixpkgs;
         stateVersion = "23.05";
       };
+
+      mcg-valts = {
+        defaultNixpkgs = nixpkgs;
+        stateVersion = "23.05";
+      };
     };
 
     formatter = self.lib.generateFormatter nixpkgs "alejandra";

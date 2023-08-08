@@ -1,4 +1,4 @@
-{...}: {
+{pkgs, ...}: {
   imports = [
     ./chromium/default.nix
     ./feh/default.nix
@@ -14,4 +14,14 @@
     ./zathura/default.nix
     ./zoom/default.nix
   ];
+
+  # TODO Temporary housing, find a better place
+  fonts = {
+    packages = with pkgs; [ powerline-fonts dejavu_fonts ];
+
+    fontconfig.defaultFonts = {
+      monospace = [ "DejaVu Sans Mono for Powerline" ];
+      sansSerif = [ "DejaVu Sans" ];
+    };
+  };
 }
