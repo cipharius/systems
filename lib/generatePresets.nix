@@ -1,2 +1,5 @@
 {inputs}:
-inputs.self.lib.mapTree (path: import path) "${inputs.self}/presets"
+inputs.haumea.lib.load {
+  src = "${inputs.self}/presets";
+  loader = inputs.haumea.lib.loaders.path;
+}

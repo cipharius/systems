@@ -29,5 +29,12 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
+    # Core dependencies
+    # Must be manually updated to prevent breakage
+    nixpkgs-core.url = "github:nixos/nixpkgs/66aedfd010204949cb225cf749be08cb13ce1813";
+
+    haumea.url = "github:nix-community/haumea/d6a9593ff2160ce29bf6d905e9ccbcecd66baeef";
+    haumea.inputs.nixpkgs.follows = "nixpkgs-core";
   };
 }

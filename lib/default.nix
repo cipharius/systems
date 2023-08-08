@@ -6,6 +6,5 @@
 
   # Pure functions
   forEach = import ./forEach.nix;
-  mapTree = import ./mapTree.nix;
   systemPkgs = import ./systemPkgs.nix;
 }
