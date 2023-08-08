@@ -20,6 +20,7 @@
     cli.pandoc.default
 
     hardware.default
+    hardware.amd.default
     hardware.opengl.default
     hardware.nvidia.default
     hardware.ssd.default
@@ -56,7 +57,6 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.availableKernelModules = ["nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod"];
   boot.initrd.kernelModules = ["nvidia" "amdgpu"];
-  boot.kernelModules = ["kvm-amd"];
   boot.kernelParams = [
     # "vfio-pci.ids=1002:73ff,1002:ab28"
   ];
@@ -92,8 +92,6 @@
 
   #   chmod +x /var/lib/libvirt/hooks/qemu
   # '';
-
-  hardware.cpu.amd.updateMicrocode = true;
 
   networking.networkmanager.enable = false;
   networking.useDHCP = false;
