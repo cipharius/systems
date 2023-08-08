@@ -23,9 +23,6 @@
       caminus = {
         defaultNixpkgs = nixpkgs;
         stateVersion = "23.05";
-        modules = [
-          inputs.home-manager.nixosModules.default
-        ];
       };
     };
 
@@ -34,6 +31,8 @@
     # TODO define devShells.<system>.default with tools such as agenix
   };
 
+  # Remember to add flake inputs to nix.registry to ensure offline rebuilds
+  # TODO Maybe possible to write nix check that detects unpinned input which would prevent offline rebuild?
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
