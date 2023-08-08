@@ -6,6 +6,7 @@
   imports = with presets; [
     default
     home
+    agenix
 
     users.root.default
     users.valts.default

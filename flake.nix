@@ -25,7 +25,6 @@
         stateVersion = "23.05";
         modules = [
           inputs.home-manager.nixosModules.default
-          inputs.agenix.nixosModules.default
         ];
       };
     };
