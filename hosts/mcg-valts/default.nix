@@ -19,6 +19,7 @@
     cli.imagemagick.default
     cli.openconnect.default
     cli.pandoc.default
+    cli.pass.default
 
     hardware.default
     hardware.opengl.default
