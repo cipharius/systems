@@ -24,6 +24,7 @@
     hardware.opengl.default
     hardware.nvidia.default
     hardware.ssd.default
+    hardware.audio.default
 
     graphical.default
     graphical.xserver.default

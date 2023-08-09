@@ -26,6 +26,7 @@
     hardware.amd.default
     hardware.udisks.default
     hardware.bluetooth.default
+    hardware.audio.default
 
     graphical.default
     graphical.xserver.default
