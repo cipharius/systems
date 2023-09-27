@@ -11,6 +11,7 @@
 
       graphical.home
       graphical.godot.home
+      graphical.arcan.home
 
       cli.kakoune.home
       cli.pijul.home
