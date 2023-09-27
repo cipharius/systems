@@ -28,6 +28,7 @@
     hardware.udisks.default
     hardware.bluetooth.default
     hardware.audio.default
+    hardware.scanner.default
 
     graphical.default
     graphical.xserver.default
