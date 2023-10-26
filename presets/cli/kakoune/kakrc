@@ -26,6 +26,8 @@ set-option -add global ui_options terminal_assistant=cat
 hook global KakBegin .* %{
   source "%val{config}/scripts/lf.kak"
   require-module lf
+
+  source "%val{config}/scripts/verifpal.kak"
 }
 
 hook global ModeChange "push:normal:prompt" %{

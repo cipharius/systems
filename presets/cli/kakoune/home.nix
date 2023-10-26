@@ -22,6 +22,7 @@
   home.file = {
     ".config/kak/kakrc".source = ./kakrc;
     ".config/kak/scripts/lf.kak".source = ./lf.kak;
+    ".config/kak/scripts/verifpal.kak".source = ./verifpal.kak;
     ".config/kak-lsp/kak-lsp.toml".source = ./kak-lsp.toml;
   };
 
