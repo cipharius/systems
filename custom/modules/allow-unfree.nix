@@ -7,7 +7,7 @@
     nixpkgs.allowUnfreeWhitelist = lib.mkOption {
       default = [];
       description = "A whitelist of allowed unfree packages";
-      type = with lib.types; listOf string;
+      type = with lib.types; listOf str;
     };
   };
 
