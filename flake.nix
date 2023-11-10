@@ -15,10 +15,10 @@
     presets = self.lib.generatePresets;
 
     nixosConfigurations = self.lib.generateNixosConfigurations {
-      test = {
-        defaultNixpkgs = nixpkgs;
-        stateVersion = "23.05";
-      };
+      # test = {
+      #   defaultNixpkgs = nixpkgs;
+      #   stateVersion = "23.05";
+      # };
 
       caminus = {
         defaultNixpkgs = nixpkgs;
