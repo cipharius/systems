@@ -29,6 +29,11 @@
         defaultNixpkgs = nixpkgs;
         stateVersion = "23.05";
       };
+
+      ciphus = {
+        defaultNixpkgs = nixpkgs;
+        stateVersion = "23.11";
+      };
     };
 
     formatter = self.lib.generateFormatter nixpkgs "alejandra";

@@ -13,6 +13,9 @@ let
   desktop = {
     root = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH4sFqu4C+Ki+aeuzjaHzi4mLwlt8PheQ5X0PxneEZu0 root@desktop";
   };
+  ciphus = {
+    root = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGAR+jn8y+BORMZSmxguWEXkJQzEJT8GH6l5uULeI9GB root@nixos";
+  };
   allKeys = [
     mcg-valts.root
     mcg-valts.valts
@@ -20,6 +23,7 @@ let
     caminus.valts
     armarium.root
     desktop.root
+    ciphus.root
   ];
 in {
   "valts.age".publicKeys = allKeys;
