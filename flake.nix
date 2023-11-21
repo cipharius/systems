@@ -46,6 +46,8 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    nixpkgs-bleeding.url = "github:nixos/nixpkgs/master";
+
     # Core dependencies
     # Must be manually updated to prevent breakage
     nixpkgs-core.url = "github:nixos/nixpkgs/66aedfd010204949cb225cf749be08cb13ce1813";

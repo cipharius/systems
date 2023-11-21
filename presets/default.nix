@@ -35,6 +35,7 @@ in {
     '';
 
     registry.nixpkgs.flake = hostNixpkgs;
+    registry.nixpkgs-bleeding.flake = inputs.nixpkgs-bleeding;
     registry.haumea.flake = inputs.haumea;
 
     nixPath = ["nixpkgs=${hostNixpkgs}"];

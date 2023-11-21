@@ -105,6 +105,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-bleeding": {
+      "locked": {
+        "lastModified": 1700222402,
+        "narHash": "sha256-vP0vFfpJymc1BvtGfS4G/ME6TModKFZ6JFrClDao/As=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "2927cc89240a9c3edec722aea988bc9ccc9d341b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "master",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-core": {
       "locked": {
         "lastModified": 1691006197,
@@ -127,6 +143,7 @@
         "haumea": "haumea",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-bleeding": "nixpkgs-bleeding",
         "nixpkgs-core": "nixpkgs-core"
       }
     }
