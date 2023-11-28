@@ -41,8 +41,6 @@ in {
     nixPath = ["nixpkgs=${hostNixpkgs}"];
   };
 
-  environment.etc.nixos.source = inputs.self;
-
   system.stateVersion =
     if !(l.hasAttr "stateVersion" hostCfg)
     then l.abort "Host \"${host}\" is missing a required field \"stateVersion\""
