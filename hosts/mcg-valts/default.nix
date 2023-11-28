@@ -76,6 +76,15 @@
   networking.interfaces.enp1s0.useDHCP = false;
   networking.interfaces.wlp2s0.useDHCP = true;
 
+  networking.nameservers = [
+    "192.168.8.1"
+    "fe80::2ec8:1bff:feb0:14c6"
+    "91.198.156.20"
+    "194.8.2.2"
+    "2a02:503:8::"
+    "2001:678:84::"
+  ];
+
   time.timeZone = "Europe/Riga";
 
   i18n.defaultLocale = "en_US.UTF-8";
