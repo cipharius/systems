@@ -11,6 +11,7 @@
 
     users.root.default
     users.valts.default
+    users.git.default
 
     server.vpsfree.default
 
