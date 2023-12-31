@@ -32,7 +32,6 @@
 
     graphical.default
     graphical.xserver.default
-    graphical.arcan.default
     graphical.steam.default
 
     development.python3.default

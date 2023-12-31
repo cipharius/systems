@@ -29,7 +29,6 @@
 
     graphical.default
     graphical.xserver.default
-    graphical.arcan.default
     graphical.steam.default
     graphical.looking-glass-client.default
 
