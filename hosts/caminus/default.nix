@@ -57,42 +57,43 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.availableKernelModules = ["nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod"];
-  boot.initrd.kernelModules = ["nvidia" "amdgpu"];
+  boot.initrd.kernelModules = [ ];
+  boot.kernelModules = [ "amdgpu" ];
   boot.kernelParams = [
     # "vfio-pci.ids=1002:73ff,1002:ab28"
   ];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_testing;
 
-  # systemd.services.libvirtd.preStart = ''
-  #   mkdir -p /var/lib/libvirt/hooks
-  #   chmod 755 /var/lib/libvirt/hooks
+  systemd.services.libvirtd.preStart = ''
+    mkdir -p /var/lib/libvirt/hooks
+    chmod 755 /var/lib/libvirt/hooks
 
-  #   cat > /var/lib/libvirt/hooks/qemu <<EOF
-  #   #!/bin/sh
-  #   vm="\$1"
-  #   cmd="\$2"
+    cat > /var/lib/libvirt/hooks/qemu <<EOF
+    #!/bin/sh
+    vm="\$1"
+    cmd="\$2"
 
-  #   if [ "\$vm" = "win10" ]; then
-  #     if [ "\$cmd" = "started" ]; then
-  #       # echo "0000:0c:00.0" > /sys/bus/pci/drivers/amdgpu/unbind
-  #       # echo "0000:0c:00.0" > /sys/bus/pci/drivers/vfio-pci/bind
+    if [ "\$vm" = "win10" ]; then
+      if [ "\$cmd" = "started" ]; then
+        # echo "0000:0c:00.0" > /sys/bus/pci/drivers/amdgpu/unbind
+        # echo "0000:0c:00.0" > /sys/bus/pci/drivers/vfio-pci/bind
 
-  #       systemctl set-property --runtime -- system.slice AllowedCPUs=6,7,8,9,10,11,18,19,20,21,22,23
-  #       systemctl set-property --runtime -- user.slice AllowedCPUs=6,7,8,9,10,11,18,19,20,21,22,23
-  #       systemctl set-property --runtime -- init.scope AllowedCPUs=6,7,8,9,10,11,18,19,20,21,22,23
-  #     elif [ "\$cmd" = "release" ]; then
-  #       systemctl set-property --runtime -- system.slice AllowedCPUs=0-23
-  #       systemctl set-property --runtime -- user.slice AllowedCPUs=0-23
-  #       systemctl set-property --runtime -- init.scope AllowedCPUs=0-23
+        systemctl set-property --runtime -- system.slice AllowedCPUs=6,7,8,9,10,11,18,19,20,21,22,23
+        systemctl set-property --runtime -- user.slice AllowedCPUs=6,7,8,9,10,11,18,19,20,21,22,23
+        systemctl set-property --runtime -- init.scope AllowedCPUs=6,7,8,9,10,11,18,19,20,21,22,23
+      elif [ "\$cmd" = "release" ]; then
+        systemctl set-property --runtime -- system.slice AllowedCPUs=0-23
+        systemctl set-property --runtime -- user.slice AllowedCPUs=0-23
+        systemctl set-property --runtime -- init.scope AllowedCPUs=0-23
 
-  #       # echo "0000:0c:00.0" > /sys/bus/pci/drivers/vfio-pci/unbind
-  #       # echo "0000:0c:00.0" > /sys/bus/pci/drivers/amdgpu/bind
-  #     fi
-  #   fi
-  #   EOF
+        # echo "0000:0c:00.0" > /sys/bus/pci/drivers/vfio-pci/unbind
+        # echo "0000:0c:00.0" > /sys/bus/pci/drivers/amdgpu/bind
+      fi
+    fi
+    EOF
 
-  #   chmod +x /var/lib/libvirt/hooks/qemu
-  # '';
+    chmod +x /var/lib/libvirt/hooks/qemu
+  '';
 
   networking.networkmanager.enable = false;
   networking.useDHCP = false;
