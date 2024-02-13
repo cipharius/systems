@@ -6,6 +6,7 @@
 }: {
   home-manager.users.valts = {
     imports = with presets; [
+      cli.bash.home
       cli.direnv.home
       cli.git.home
 
