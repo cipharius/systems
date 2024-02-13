@@ -71,6 +71,8 @@
   boot.initrd.availableKernelModules = ["nvme" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  hardware.enableRedistributableFirmware = true;
+
   networking.useDHCP = false;
   networking.interfaces.enp1s0.useDHCP = false;
   networking.interfaces.wlp2s0.useDHCP = true;
