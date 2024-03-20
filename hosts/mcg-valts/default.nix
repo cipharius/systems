@@ -22,6 +22,7 @@
     cli.pass.default
 
     hardware.default
+    hardware.printer.default
     hardware.opengl.default
     hardware.ssd.default
     hardware.amd.default
