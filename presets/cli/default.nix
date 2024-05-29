@@ -18,5 +18,6 @@
     ./unar/default.nix
     ./wget/default.nix
     ./zip/default.nix
+    ./gdb/default.nix
   ];
 }
