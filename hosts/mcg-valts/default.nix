@@ -43,7 +43,6 @@
 
     network.default
     network.transmission.default
-    network.zerotierone.default
     network.wireguard.hpcr
   ];
 
