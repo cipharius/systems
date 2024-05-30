@@ -5,7 +5,7 @@
         plugins = with kakounePlugins; [
           kak-ansi
           prelude-kak
-          kak-lsp
+          kakoune-lsp
         ];
       };
     })

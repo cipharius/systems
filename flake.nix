@@ -50,15 +50,15 @@
 
     # Core dependencies
     # Must be manually updated to prevent breakage
-    nixpkgs-core.url = "github:nixos/nixpkgs/91050ea1e57e50388fa87a3302ba12d188ef723a";
+    nixpkgs-core.url = "github:nixos/nixpkgs/45cef8da7cb34fb452d45ce31545dd4a5a36fcdf";
 
-    haumea.url = "github:nix-community/haumea/d6a9593ff2160ce29bf6d905e9ccbcecd66baeef";
+    haumea.url = "github:nix-community/haumea/ec6350fd9353e7f27ce0e85d31f82e3ed73e4d70";
     haumea.inputs.nixpkgs.follows = "nixpkgs-core";
 
-    home-manager.url = "github:nix-community/home-manager/948703f3e71f1332a0cb535ebaf5cb14946e3724";
+    home-manager.url = "github:nix-community/home-manager/a9b36cbe9292a649222b89fdb9ae9907e9c74086";
     home-manager.inputs.nixpkgs.follows = "nixpkgs-core";
 
-    agenix.url = "github:ryantm/agenix/d8c973fd228949736dedf61b7f8cc1ece3236792";
+    agenix.url = "github:ryantm/agenix/c2fc0762bbe8feb06a2e59a364fa81b3a57671c9";
     agenix.inputs.home-manager.follows = "home-manager";
     agenix.inputs.nixpkgs.follows = "nixpkgs-core";
   };
