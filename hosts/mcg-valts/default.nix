@@ -33,8 +33,8 @@
     hardware.scanner.default
 
     graphical.default
-    graphical.xserver.default
     graphical.steam.default
+    graphical.arcan.default
 
     development.python3.default
     development.virtualisation.default
@@ -49,6 +49,8 @@
   ];
 
   nixpkgs.hostPlatform = "x86_64-linux";
+
+  services.arcan.enable = true;
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/2c251e55-0255-4ff4-89aa-07a5127b0748";
@@ -70,6 +72,7 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelModules = ["amdgpu"];
   boot.initrd.availableKernelModules = ["nvme" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
