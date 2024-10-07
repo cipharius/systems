@@ -77,6 +77,10 @@
   networking.interfaces.enp1s0.useDHCP = false;
   networking.interfaces.wlp2s0.useDHCP = true;
 
+  networking.nat.enable = true;
+  networking.nat.internalInterfaces = [ "enp1s0" "enp5s0f3u2" ];
+  networking.nat.externalInterface = "wlp2s0";
+
   networking.nameservers = [
     "192.168.8.1"
     "fe80::2ec8:1bff:feb0:14c6"
