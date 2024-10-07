@@ -42,6 +42,7 @@
     development.docker.default
 
     network.default
+    network.ssh.default
     network.transmission.default
     network.wireguard.hpcr
     network.wireguard.cronos
