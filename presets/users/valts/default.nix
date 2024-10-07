@@ -15,7 +15,6 @@
 
       cli.kakoune.home
       cli.pijul.home
-      cli.youtubedl.home
       cli.taskwarrior.home
     ];
 
