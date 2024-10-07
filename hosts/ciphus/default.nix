@@ -2,8 +2,7 @@
   pkgs,
   presets,
   ...
-}:
-{
+}: {
   imports = with presets; [
     default
     home

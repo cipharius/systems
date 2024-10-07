@@ -3,8 +3,7 @@
   lib,
   config,
   ...
-}:
-let
+}: let
   system = config.nixpkgs.hostPlatform.system;
 in {
   imports = [

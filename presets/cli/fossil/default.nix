@@ -1,3 +1,3 @@
-{ pkgs, ... }: {
-    environment.systemPackages = [pkgs.fossil];
+{pkgs, ...}: {
+  environment.systemPackages = [pkgs.fossil];
 }

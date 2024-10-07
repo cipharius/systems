@@ -78,7 +78,7 @@
   networking.interfaces.wlp2s0.useDHCP = true;
 
   networking.nat.enable = true;
-  networking.nat.internalInterfaces = [ "enp1s0" "enp5s0f3u2" ];
+  networking.nat.internalInterfaces = ["enp1s0" "enp5s0f3u2"];
   networking.nat.externalInterface = "wlp2s0";
 
   networking.nameservers = [

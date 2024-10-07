@@ -1,8 +1,10 @@
-{ config, inputs, ... }:
-let
+{
+  config,
+  inputs,
+  ...
+}: let
   system = config.nixpkgs.hostPlatform.system;
   pkgs = inputs.self.lib.systemPkgs system inputs.nixpkgs-bleeding;
-in
-{
+in {
   environment.systemPackages = [pkgs.gdb];
 }
