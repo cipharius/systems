@@ -20,6 +20,7 @@
     cli.openconnect.default
     cli.pandoc.default
     cli.pass.default
+    cli.fossil.default
 
     hardware.default
     hardware.printer.default
