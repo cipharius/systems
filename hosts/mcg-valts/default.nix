@@ -44,6 +44,7 @@
     network.default
     network.transmission.default
     network.wireguard.hpcr
+    network.wireguard.cronos
   ];
 
   nixpkgs.hostPlatform = "x86_64-linux";

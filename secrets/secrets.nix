@@ -31,5 +31,6 @@ in {
   "paperless-admin.age".publicKeys = allKeys;
   "wireless.age".publicKeys = allKeys;
   "wireguard-hpcr-private.age".publicKeys = allKeys;
+  "wireguard-cronos-private.age".publicKeys = allKeys;
   "wpa-psk.age".publicKeys = allKeys;
 }
