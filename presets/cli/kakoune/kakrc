@@ -1,9 +1,5 @@
 # PLUGINS #
 evaluate-commands %sh{
-  kak-lsp --kakoune -s $kak_session
-}
-
-evaluate-commands %sh{
   kcr init kakoune
 }
 
@@ -53,16 +49,6 @@ hook global ModuleLoaded "kitty" %{
   alias global terminal x11-terminal
 }
 
-hook global WinSetOption filetype=(c|cpp|zig|markdown) %{
-  map window user , %{: enter-user-mode lsp<ret>}
-  echo -debug "Enabling LSP for filtetype %opt{filetype}"
-  lsp-enable-window
-}
-
-hook global WinSetOption filetype=(c|cpp|zig) %{
-  set-option window lsp_auto_highlight_references true
-}
-
 # COMMANDS #
 
 define-command split -params 0 -docstring \
@@ -90,22 +76,6 @@ define-command edit-config \
 define-command clear-trailing-whitespaces \
   -docstring "deletes all trailing whitespaces in current buffer" \
   %{ try %{ execute-keys -draft '%s[ \t]+$<ret>d' } }
-
-define-command ne \
-  -docstring 'go to next error/warning from lsp' \
-  %{ lsp-find-error --include-warnings }
-
-define-command pe \
-  -docstring 'go to previous error/warning from lsp' \
-  %{ lsp-find-error --previous --include-warnings }
-
-define-command ee \
-  -docstring 'go to current error/warning from lsp' \
-  %{ lsp-find-error --include-warnings; lsp-find-error --previous --include-warnings }
-
-define-command lsp-restart \
-  -docstring 'restart lsp server' \
-  %{ lsp-stop; lsp-start }
 
 # OPTIONS #
 
