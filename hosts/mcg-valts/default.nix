@@ -39,7 +39,6 @@
     development.python3.default
     development.virtualisation.default
     development.zig.default
-    development.tracy.default
     development.docker.default
 
     network.default
