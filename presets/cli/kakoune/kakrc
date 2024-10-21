@@ -7,21 +7,20 @@ evaluate-commands %sh{
 
 colorscheme zenburn
 
-add-highlighter global/number-lines number-lines -relative
-add-highlighter global/ wrap -word -indent -marker '↪ ' -width 80
 add-highlighter global/todos regex (?:TODO|NOTE)\s 0:red+bf
 add-highlighter global/trailing-whitespace regex "[ 	]+$" 0:BufferPadding
 
 set-face global PrimarySelection default+bu
 
-set-option global autowrap_fmtcmd 'fmt --width %c'
 set-option -add global ui_options terminal_assistant=cat
 
 # HOOKS #
 
 hook global KakBegin .* %{
-  source "%val{config}/scripts/lf.kak"
-  require-module lf
+  source "%val{config}/scripts/fifo.kak"
+  source "%val{config}/scripts/ls.kak"
+  source "%val{config}/scripts/explore.kak"
+  source "%val{config}/scripts/list_buffers.kak"
 
   source "%val{config}/scripts/verifpal.kak"
 }
@@ -30,13 +29,6 @@ hook global ModeChange "push:normal:prompt" %{
   map -docstring 'Insert selection' \
     window prompt <a-i> "%reg{.}<a-!>"
 }
-
-# hook global WinSetOption "filetype=(?:c|cpp)" %{
-#     map -docstring "describe symbol at point" \
-#     	window user d ": rtags-symbol-info<ret>"
-#     map -docstring "symbol definition" \
-#         window goto s "<esc>: rtags-follow<ret>"
-# }
 
 hook global WinSetOption "filetype=kak" %{
   map -docstring "evaluate whole buffer" \
@@ -69,10 +61,6 @@ define-command change-filetype \
   -docstring "change-filetype <filetype>: set filetype of current buffer" \
   %{ set buffer filetype %arg{1} }
 
-define-command edit-config \
-  -docstring "edit-config: open the user config file" \
-  %{ edit "%val{config}/kakrc" }
-
 define-command clear-trailing-whitespaces \
   -docstring "deletes all trailing whitespaces in current buffer" \
   %{ try %{ execute-keys -draft '%s[ \t]+$<ret>d' } }
@@ -82,11 +70,20 @@ define-command clear-trailing-whitespaces \
 require-module x11
 declare-option str term 'kitty'
 set-option global termcmd "%opt{term} -e bash -c "
-set-option global indentwidth 2
 set-option global grepcmd 'rg -Hn'
 alias global tag ctags-search
 
 # MAPPINGS #
+
+declare-user-mode file-explorer
+map -docstring 'Open current file directory' \
+    global file-explorer d ': ex<ret>'
+map -docstring 'Open working directory' \
+    global file-explorer w ': ex %sh{pwd}<ret>'
+map -docstring 'Open git root directory' \
+    global file-explorer p ': ex %sh{git rev-parse --show-toplevel}<ret>'
+map -docstring 'File explorer' \
+    global user d ': enter-user-mode file-explorer<ret>'
 
 map global normal / "/(?i)"
 map -docstring 'Calculate selection' \
@@ -95,7 +92,5 @@ map -docstring 'System copy' \
     global user y '<a-|> xsel --input --clipboard<ret>'
 map -docstring 'System paste' \
     global user p '! xsel --output --clipboard<ret>'
-map -docstring 'lf' \
-    global user d ': enter-user-mode lf-mode<ret>'
 map -docstring 'Split window' \
     global user s ': split<ret>'
