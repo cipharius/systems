@@ -1,6 +1,7 @@
 {
   pkgs,
   presets,
+  config,
   ...
 }: {
   imports = with presets; [
@@ -24,12 +25,35 @@
     network.acme.default
   ];
 
-  security.acme.defaults.webroot = "/srv/web";
+  services.fail2ban.enable = true;
+  services.fail2ban.jails = {
+      nginx-filebrowser-login.settings = {
+          filter = "nginx-filebrowser-login";
+          action = ''iptables-multiport[name=HTTP, port="http,https"]'';
+          logpath = "/var/log/nginx/access.log";
+          backend = "auto";
+      };
+  };
+  environment.etc = {
+      "fail2ban/filter.d/nginx-filebrowser-login.conf".text = ''
+      [Definition]
+      failregex = ^<HOST> - .*POST /api/login HTTP/..." 403
+      '';
+  };
+
+  security.acme.defaults.webroot = "/var/lib/acme/acme-challenge";
+  security.acme.certs."tase.lv" = {
+      group = "nginx";
+      extraDomainNames = [
+          "files.tase.lv"
+      ];
+  };
+
   services.nginx.virtualHosts = {
     "tase.lv" = {
-      addSSL = true;
+      useACMEHost = "tase.lv";
+      forceSSL = true;
       kTLS = true;
-      enableACME = true;
 
       locations."/" = {
         root = "/srv/web";
@@ -37,12 +61,12 @@
     };
 
     "files.tase.lv" = {
+      useACMEHost = "tase.lv";
       forceSSL = true;
       kTLS = true;
-      enableACME = true;
 
       locations."/" = {
-        proxyPass = "http://localhost:5983"; # Filebrowser frontend
+        proxyPass = "http://localhost:${toString config.services.filebrowser.settings.port}";
       };
     };
   };
