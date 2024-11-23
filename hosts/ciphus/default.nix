@@ -14,6 +14,7 @@
 
     server.vpsfree.default
     server.nginx.default
+    server.filebrowser.default
 
     cli.default
 
@@ -34,7 +35,24 @@
         root = "/srv/web";
       };
     };
+
+    "files.tase.lv" = {
+      forceSSL = true;
+      kTLS = true;
+      enableACME = true;
+
+      locations."/" = {
+        proxyPass = "http://localhost:5983"; # Filebrowser frontend
+      };
+    };
   };
+
+  services.nginx.clientMaxBodySize = "2g";
+
+  services.filebrowser.openFirewall = false;
+  services.filebrowser.settings.address = "127.0.0.1";
+  services.filebrowser.settings.port = 5983;
+
   nixpkgs.hostPlatform = "x86_64-linux";
 
   time.timeZone = "Europe/Amsterdam";
