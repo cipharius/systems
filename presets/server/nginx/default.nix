@@ -1,12 +1,12 @@
 {
-    services.nginx = {
-        enable = true;
+  services.nginx = {
+    enable = true;
 
-        statusPage = false;
-        recommendedTlsSettings = true;
-        recommendedOptimisation = true;
-        recommendedGzipSettings = true;
-    };
+    statusPage = false;
+    recommendedTlsSettings = true;
+    recommendedOptimisation = true;
+    recommendedGzipSettings = true;
+  };
 
-    networking.firewall.allowedTCPPorts = [80 443];
+  networking.firewall.allowedTCPPorts = [80 443];
 }

@@ -5,15 +5,9 @@
   ...
 }: let
   cfg = config.services.fossil;
-in {
-  options = {
-    services.fossil = {
-      enable = lib.mkEnableOption "Fossil UI";
+  repositoryOptions = {...}: {
+    options = {
       package = lib.mkPackageOption pkgs "fossil" {};
-      repository = lib.mkOption {
-        type = lib.types.str;
-        description = "The repository to host";
-      };
       port = lib.mkOption {
         default = 8080;
         type = lib.types.port;
@@ -31,14 +25,9 @@ in {
         description = "Whether to run fossil in SCGI mode";
       };
       localhost = lib.mkOption {
-          type = lib.types.bool;
-          default = false;
-          description = "Whether to restrict server to localhost only";
-      };
-      stateDir = lib.mkOption {
-        default = "fossil";
-        type = lib.types.str;
-        description = "Name of the state directory under /var/lib";
+        type = lib.types.bool;
+        default = false;
+        description = "Whether to restrict server to localhost only";
       };
       arguments = lib.mkOption {
         default = [];
@@ -47,39 +36,58 @@ in {
       };
     };
   };
-
-  config = lib.mkIf cfg.enable {
-    environment.systemPackages = [cfg.package];
-    systemd.services.fossil = {
-      description = "Fossil server";
+  perRepoService = repoName: let
+    repoCfg = cfg.repositories."${repoName}";
+  in {
+    name = "fossil_${repoName}";
+    value = {
+      description = "Fossil server for repository ${repoName}";
       wantedBy = ["multi-user.target"];
       serviceConfig = {
         DynamicUser = "true";
-        WorkingDirectory = "/var/lib/${cfg.stateDir}";
-        StateDirectory = "${cfg.stateDir}";
+        WorkingDirectory = "/var/lib/fossil_${repoName}";
+        StateDirectory = "fossil_${repoName}";
         Restart = "always";
         RestartSec = "3";
         ExecStart = lib.concatStringsSep " " ([
-            "${cfg.package}/bin/fossil server"
+            "${repoCfg.package}/bin/fossil server"
             "--create"
             "--port"
-            (toString cfg.port)
+            (toString repoCfg.port)
           ]
-          ++ (lib.optionals cfg.localhost [
-              "--localhost"
+          ++ (lib.optionals repoCfg.localhost [
+            "--localhost"
           ])
-          ++ (lib.optionals (cfg.baseUrl != null) [
+          ++ (lib.optionals (repoCfg.baseUrl != null) [
             "--baseurl"
-            cfg.baseUrl
+            repoCfg.baseUrl
           ])
-          ++ (lib.optionals cfg.useSCGI [
+          ++ (lib.optionals repoCfg.useSCGI [
             "--scgi"
           ])
-          ++ cfg.arguments
+          ++ repoCfg.arguments
           ++ [
-            cfg.repository
+            "${repoName}.fossil"
           ]);
       };
     };
+  };
+in {
+  options = {
+    services.fossil = {
+      enable = lib.mkEnableOption "Fossil web UI";
+
+      repositories = lib.mkOption {
+        description = "Mapping of repository names and server configuration";
+        default = {};
+        type = lib.types.attrsOf (lib.types.submodule repositoryOptions);
+      };
+    };
+  };
+
+
+  config = lib.mkIf cfg.enable {
+    environment.systemPackages = builtins.map (repo: repo.package) (builtins.attrValues cfg.repositories);
+    systemd.services = builtins.listToAttrs (builtins.map perRepoService (builtins.attrNames cfg.repositories));
   };
 }

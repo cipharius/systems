@@ -1,4 +1,4 @@
 {
-  imports = [ ./filebrowser.nix ];
+  imports = [./filebrowser.nix];
   services.filebrowser.enable = true;
 }

@@ -28,40 +28,43 @@
 
   services.fail2ban.enable = true;
   services.fail2ban.jails = {
-      nginx-fossil-login.settings = {
-          filter = "nginx-fossil-login";
-          action = ''iptables-multiport[name=HTTP, port="http,https"]'';
-          logpath = "/var/log/nginx/access.log";
-          backend = "auto";
-      };
-      nginx-filebrowser-login.settings = {
-          filter = "nginx-filebrowser-login";
-          action = ''iptables-multiport[name=HTTP, port="http,https"]'';
-          logpath = "/var/log/nginx/access.log";
-          backend = "auto";
-      };
+    nginx-fossil-login.settings = {
+      filter = "nginx-fossil-login";
+      action = ''iptables-multiport[name=HTTP, port="http,https"]'';
+      logpath = "/var/log/nginx/access.log";
+      backend = "auto";
+    };
+    nginx-filebrowser-login.settings = {
+      filter = "nginx-filebrowser-login";
+      action = ''iptables-multiport[name=HTTP, port="http,https"]'';
+      logpath = "/var/log/nginx/access.log";
+      backend = "auto";
+    };
   };
   environment.etc = {
-      "fail2ban/filter.d/nginx-fossil-login.conf".text = ''
+    "fail2ban/filter.d/nginx-fossil-login.conf".text = ''
       [Definition]
       failregex = ^<HOST> - .*POST .*/login HTTP/..." 401
-      '';
-      "fail2ban/filter.d/nginx-filebrowser-login.conf".text = ''
+    '';
+    "fail2ban/filter.d/nginx-filebrowser-login.conf".text = ''
       [Definition]
       failregex = ^<HOST> - .*POST /api/login HTTP/..." 403
-      '';
+    '';
   };
 
   security.acme.defaults.webroot = "/var/lib/acme/acme-challenge";
   security.acme.certs."tase.lv" = {
-      group = "nginx";
-      extraDomainNames = [
-          "files.tase.lv"
-          "smash.tase.lv"
-      ];
+    group = "nginx";
+    extraDomainNames = [
+      "files.tase.lv"
+      "smash.tase.lv"
+      "arcan.tase.lv"
+    ];
   };
 
-  services.nginx.virtualHosts = {
+  services.nginx.virtualHosts = let
+    nginxPackage = config.services.nginx.package;
+  in {
     "tase.lv" = {
       useACMEHost = "tase.lv";
       forceSSL = true;
@@ -88,20 +91,45 @@
       kTLS = true;
 
       locations."/" = {
+        # scgi_pass localhost:${toString config.services.fossil.repositories.smash.port};
         extraConfig = ''
-        include ${config.services.nginx.package}/conf/scgi_params;
-        scgi_pass localhost:${toString config.services.fossil.port};
-        scgi_param SCRIPT_NAME "";
+          include ${nginxPackage}/conf/scgi_params;
+          scgi_pass localhost:9000;
+          scgi_param SCRIPT_NAME "";
+        '';
+      };
+    };
+
+    "arcan.tase.lv" = {
+      useACMEHost = "tase.lv";
+      forceSSL = true;
+      kTLS = true;
+
+      locations."/" = {
+        # scgi_pass localhost:${toString config.services.fossil.repositories.arcan.port};
+        extraConfig = ''
+          include ${nginxPackage}/conf/scgi_params;
+          scgi_pass localhost:9001;
+          scgi_param SCRIPT_NAME "";
         '';
       };
     };
   };
 
-  services.fossil.useSCGI = true;
-  services.fossil.localhost = true;
-  services.fossil.baseUrl = "https://smash.tase.lv/";
-  services.fossil.repository = "smash.fossil";
-  services.fossil.port = 9000;
+  services.fossil.repositories = {
+    smash = {
+      useSCGI = true;
+      localhost = true;
+      baseUrl = "https://smash.tase.lv/";
+      port = 9000;
+    };
+    arcan = {
+      useSCGI = true;
+      localhost = true;
+      baseUrl = "https://arcan.tase.lv/";
+      port = 9001;
+    };
+  };
 
   services.nginx.clientMaxBodySize = "2g";
 

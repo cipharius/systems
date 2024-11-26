@@ -1,5 +1,10 @@
 # Borrowed from somewhere, not the author and lost the source reference
-{ config, pkgs, lib, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   options = {
     services.filebrowser = {
       dataDir = lib.mkOption {
@@ -30,7 +35,7 @@
         type = lib.types.bool;
       };
 
-      package = lib.mkPackageOption pkgs "filebrowser" { };
+      package = lib.mkPackageOption pkgs "filebrowser" {};
 
       # Eventually I'd like to add all of the `filebrowser config set` options here,
       # along with having a `services.filebrowser.settings.users` that fully models
@@ -40,7 +45,7 @@
       # with releasing that. For now, I'll keep the scope of supported settings small,
       # get those right, and provide a tool to allow the user to mutate the database.
       settings = lib.mkOption {
-        default = { };
+        default = {};
         description = "application specific settings";
         type = lib.types.submodule {
           options = {
@@ -70,8 +75,7 @@
   config = let
     cfg = config.services.filebrowser;
 
-    cmd =
-      "${lib.getExe cfg.package} --config='${cfg.dataDir}/config.json' --database='${cfg.dataDir}/database.boltdb'";
+    cmd = "${lib.getExe cfg.package} --config='${cfg.dataDir}/config.json' --database='${cfg.dataDir}/database.boltdb'";
 
     # This `preamble` should be included before working with filebrowser or its data files
     preamble = ''
@@ -91,61 +95,57 @@
       chown ${cfg.user}:${cfg.group} '${cfg.dataDir}/database.boltdb' || exit $?
       chmod 600 '${cfg.dataDir}/database.boltdb' || exit $?
     '';
+  in
+    lib.mkIf cfg.enable {
+      # `filebrowser-service-tool` is a helper command to make it much easier to correctly
+      # update, add, and remove settings, users, rules, etc, in the filebrowser db. Eventually,
+      # I'd like this to go away once we've correctly modeled the full set of parameters.
+      environment.systemPackages = [
+        (pkgs.writeShellScriptBin "filebrowser-service-tool" ''
+          if systemctl is-active --quiet filebrowser.service ; then
+            echo "'filebrowser.service' needs to be stopped before using this tool"
+            exit 1
+          fi
 
-  in lib.mkIf cfg.enable {
+          ${preamble}
 
-    # `filebrowser-service-tool` is a helper command to make it much easier to correctly
-    # update, add, and remove settings, users, rules, etc, in the filebrowser db. Eventually,
-    # I'd like this to go away once we've correctly modeled the full set of parameters.
-    environment.systemPackages = [
-      (pkgs.writeShellScriptBin "filebrowser-service-tool" ''
-        if systemctl is-active --quiet filebrowser.service ; then
-          echo "'filebrowser.service' needs to be stopped before using this tool"
-          exit 1
-        fi
+          exec ${cmd} "$@"
+        '')
+      ];
 
-        ${preamble}
-
-        exec ${cmd} "$@"
-      '')
-    ];
-
-    networking.firewall =
-      lib.mkIf cfg.openFirewall {
-        allowedTCPPorts = [ cfg.settings.port ];
+      networking.firewall = lib.mkIf cfg.openFirewall {
+        allowedTCPPorts = [cfg.settings.port];
       };
 
-    systemd.services.filebrowser = {
-      after = [ "network.target" ];
-      description = "Filebrowser Service";
-      wantedBy = [ "multi-user.target" ];
+      systemd.services.filebrowser = {
+        after = ["network.target"];
+        description = "Filebrowser Service";
+        wantedBy = ["multi-user.target"];
 
-      serviceConfig = {
-        Group = cfg.group;
-        Restart = "on-failure";
-        Type = "simple";
-        User = cfg.user;
+        serviceConfig = {
+          Group = cfg.group;
+          Restart = "on-failure";
+          Type = "simple";
+          User = cfg.user;
+        };
+
+        script = ''
+          ${preamble}
+
+          ${cmd} config set --address=${cfg.settings.address} || exit $?
+          ${cmd} config set --port=${toString cfg.settings.port} || exit $?
+          exec ${cmd}
+        '';
       };
 
-      script = ''
-        ${preamble}
+      systemd.tmpfiles.rules = ["d '${cfg.dataDir}' 0700 ${cfg.user} ${cfg.group} - -"];
 
-        ${cmd} config set --address=${cfg.settings.address} || exit $?
-        ${cmd} config set --port=${toString cfg.settings.port} || exit $?
-        exec ${cmd}
-      '';
+      users.groups.filebrowser = lib.mkIf (cfg.group == "filebrowser") {};
+
+      users.users.filebrowser = lib.mkIf (cfg.user == "filebrowser") {
+        group = cfg.group;
+        home = cfg.dataDir;
+        isSystemUser = true;
+      };
     };
-
-    systemd.tmpfiles.rules =
-      [ "d '${cfg.dataDir}' 0700 ${cfg.user} ${cfg.group} - -" ];
-
-    users.groups.filebrowser = lib.mkIf (cfg.group == "filebrowser") { };
-
-    users.users.filebrowser = lib.mkIf (cfg.user == "filebrowser") {
-      group = cfg.group;
-      home = cfg.dataDir;
-      isSystemUser = true;
-    };
-
-  };
 }
