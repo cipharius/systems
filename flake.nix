@@ -50,7 +50,7 @@
 
     # Core dependencies
     # Must be manually updated to prevent breakage
-    nixpkgs-core.url = "github:nixos/nixpkgs/90fe4c0103687f9c6124b783762deee2561d335a";
+    nixpkgs-core.url = "github:nixos/nixpkgs/0da3c44a9460a26d2025ec3ed2ec60a895eb1114";
 
     haumea.url = "github:nix-community/haumea/ec6350fd9353e7f27ce0e85d31f82e3ed73e4d70";
     haumea.inputs.nixpkgs.follows = "nixpkgs-core";
