@@ -12,9 +12,9 @@
 
     peers = [
       {
-        publicKey = "WpCKSVGL0D02QBOTWg1ppJ8rH1bOwi1dhKJoS3p6bVo=";
+        publicKey = "/slJUs3thmGDcVPfFHoqQn2zldh82qwnuVN5GGz+JgQ=";
         allowedIPs = ["192.168.99.0/24"];
-        endpoint = "5.179.17.198:51820";
+        endpoint = "5.179.0.122:51820";
       }
     ];
   };
