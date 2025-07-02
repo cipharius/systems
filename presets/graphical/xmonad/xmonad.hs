@@ -21,7 +21,6 @@ import qualified XMonad.Prompt.Shell                as PShell
 import qualified XMonad.Prompt.Window               as PWin
 import qualified XMonad.StackSet                    as WS
 import qualified XMonad.Util.EZConfig               as EZ
-import qualified XMonad.Util.Scratchpad             as Scratch
 import qualified XMonad.Util.Types                  as Dir
 import qualified XMonad.Hooks.SetWMName             as WMName
 
@@ -55,11 +54,9 @@ myTerminal = "kitty"
 
 myBrowser = "qutebrowser"
 
-myManageHook = Full.fullscreenManageHook <+> MDock.manageDocks <+> manageScratchpad
+myManageHook = Full.fullscreenManageHook <+> MDock.manageDocks
 
 myHandleEventHook = Full.fullscreenEventHook
-
-manageScratchpad = Scratch.scratchpadManageHook (WS.RationalRect 0 0.8 1 0.2)
 
 myNavigation = Nav2D.navigation2D def
     (xK_k, xK_h, xK_j, xK_l)
@@ -89,7 +86,6 @@ myPrompt = def
 -- / Key bindings / --
 myKeys = let leader = "M-<Space>" in
     [ ("<Print>",                 spawn "screenshot")
-    , ("M-`",                     Scratch.scratchpadSpawnActionTerminal myTerminal)
     , ("M-c",                     spawn "xclip -o | xclip -sel clip -i")
     , ("M-;",                     sendMessage $ BSP.Swap)
     , ("M-S-;",                   sendMessage $ BSP.Rotate)
