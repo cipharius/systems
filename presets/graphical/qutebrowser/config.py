@@ -5,5 +5,6 @@ c.downloads.location.directory = "~/downloads"
 c.content.pdfjs = True
 c.content.headers.user_agent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
 c.editor.command = ["kitty", "kak", "{}"]
+c.url.searchengines = {"DEFAULT": "https://kagi.com/search?q={}"}
 
 config.load_autoconfig()
