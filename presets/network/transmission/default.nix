@@ -1,4 +1,5 @@
 {pkgs, ...}: {
+  networking.firewall.allowedTCPPorts = [ 51413 ];
   environment.systemPackages = with pkgs; [pkgs.transmission];
   boot.kernel.sysctl = {
     "net.core.rmem_max" = 4194304;
