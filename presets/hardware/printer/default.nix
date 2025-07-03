@@ -4,5 +4,7 @@
     gutenprint
     samsung-unified-linux-driver_4_01_17
   ];
-  nixpkgs.allowUnfreeWhitelist = ["samsung-UnifiedLinuxDriver"];
+  nixpkgs.allowUnfreeWhitelist = [
+      "samsung-unified-linux-driver"
+  ];
 }

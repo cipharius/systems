@@ -1,4 +1,5 @@
 {pkgs, ...}: {
-  hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.package = pkgs.pulseaudioFull;
+  services.pulseaudio.enable = true;
+  services.pulseaudio.package = pkgs.pulseaudioFull;
+  services.pipewire.enable = false;
 }

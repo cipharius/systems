@@ -5,6 +5,7 @@
     "steam"
     "steam-original"
     "steam-run"
+    "steam-unwrapped"
   ];
 
   nixpkgs.config.packageOverrides = pkgs: {
@@ -18,7 +19,7 @@
           libpulseaudio
           libpng
           libvorbis
-          libusb
+          libusb1
         ];
     };
   };

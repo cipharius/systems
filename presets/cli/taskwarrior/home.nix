@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    taskwarrior
+    taskwarrior3
     timewarrior
   ];
 
