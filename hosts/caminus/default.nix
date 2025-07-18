@@ -108,6 +108,8 @@
   ];
   networking.defaultGateway = "192.168.8.1";
   networking.nameservers = ["192.168.8.1"];
+  networking.firewall.allowedUDPPorts = [ 7777 ];
+  networking.firewall.allowedTCPPorts = [ 7777 6680 ];
 
   # Nescessary to prevent Xorg from freaking out about guest GPU
   # (specifically with Radeon RX 6600 XT, was fine with GTX 750Ti)
