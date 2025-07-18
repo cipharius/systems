@@ -10,6 +10,7 @@
 
     users.root.default
     users.valts.default
+    users.emily.default
 
     cli.default
     cli.zk.default

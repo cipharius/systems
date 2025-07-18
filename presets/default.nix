@@ -18,7 +18,7 @@ in {
       sandbox = true;
       trusted-users = ["root" "@wheel"];
       auto-optimise-store = true;
-      allowed-users = ["@wheel"];
+      allowed-users = ["@wheel" "emily"];
 
       # Enable nix-command and flakes implicitely, since this repository is designed for flakes only configuration
       experimental-features = lib.mkDefault ["nix-command" "flakes"];

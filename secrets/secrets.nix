@@ -27,6 +27,7 @@ let
   ];
 in {
   "valts.age".publicKeys = allKeys;
+  "emily.age".publicKeys = allKeys;
   "root.age".publicKeys = allKeys;
   "paperless-admin.age".publicKeys = allKeys;
   "wireless.age".publicKeys = allKeys;
