@@ -6,7 +6,7 @@
   ...
 }:
 let
-  micromamba-fhs = pkgs.buildFHSUserEnv {
+  micromamba-fhs = pkgs.buildFHSEnv {
       name = "micromamba-fhs";
       targetPkgs = _: [
           pkgs.micromamba
