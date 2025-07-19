@@ -63,7 +63,6 @@
   boot.kernelParams = [
     # "vfio-pci.ids=1002:73ff,1002:ab28"
   ];
-  boot.kernelPackages = pkgs.linuxPackages_testing;
 
   systemd.services.libvirtd.preStart = ''
     mkdir -p /var/lib/libvirt/hooks
