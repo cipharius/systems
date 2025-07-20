@@ -114,6 +114,23 @@
     6680 # arcan-net
   ];
 
+  services.samba.enable = true;
+  services.samba.openFirewall = true;
+  services.samba.settings.global = {
+      security = "user";
+      "map to guest" = "bad user";
+      "guest account" = "nobody";
+  };
+  services.samba.settings.share = {
+      browseable = "yes";
+      comment = "Caminus share";
+      writeable = true;
+      public = true;
+      path = "/srv/data";
+      "create mask" = "0664";
+      "force group" = "users";
+  };
+
   # Nescessary to prevent Xorg from freaking out about guest GPU
   # (specifically with Radeon RX 6600 XT, was fine with GTX 750Ti)
   # services.xserver.videoDrivers = [];
