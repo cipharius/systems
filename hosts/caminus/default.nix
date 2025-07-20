@@ -117,6 +117,8 @@
   services.samba.enable = true;
   services.samba.openFirewall = true;
   services.samba.settings.global = {
+      workgroup = "caminus.home.tase.lv";
+      "domain master" = "yes";
       security = "user";
       "map to guest" = "bad user";
       "guest account" = "nobody";
@@ -124,10 +126,12 @@
   services.samba.settings.share = {
       browseable = "yes";
       comment = "Caminus share";
-      writeable = true;
       public = true;
+      "read only" = false;
       path = "/srv/data";
-      "create mask" = "0664";
+      "create mask" = "0666";
+      "directory mask" = "0777";
+      "force user" = "nobody";
       "force group" = "users";
   };
 
