@@ -66,12 +66,17 @@
       device = "//caminus.home.tase.lv/share";
       fsType = "cifs";
       options = [
-          "x-systemd.automount"
           "noauto"
+          "x-systemd.automount"
           "x-systemd.idle-timeout=60"
           "x-systemd.device-timeout=5s"
           "x-systemd.mount-timeout=5s"
+          "rw"
+          "relatime"
           "sec=none"
+          "gid=100"
+          "file_mode=0660"
+          "dir_mode=0770"
       ];
   };
 
