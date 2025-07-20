@@ -62,6 +62,19 @@
     fsType = "vfat";
   };
 
+  fileSystems."/mnt/caminus" = {
+      device = "//caminus.home.tase.lv/share";
+      fsType = "cifs";
+      options = [
+          "x-systemd.automount"
+          "noauto"
+          "x-systemd.idle-timeout=60"
+          "x-systemd.device-timeout=5s"
+          "x-systemd.mount-timeout=5s"
+          "sec=none"
+      ];
+  };
+
   swapDevices = [
     {device = "/dev/disk/by-uuid/fc051fc4-8ca6-48cf-a425-6e913c23ed51";}
   ];
