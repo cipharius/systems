@@ -16,6 +16,7 @@
 
     server.vpsfree.default
     server.nginx.default
+    server.murmur.default
     server.filebrowser.default
     server.fossil.default
 
