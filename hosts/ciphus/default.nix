@@ -12,6 +12,7 @@
     users.root.default
     users.valts.default
     users.git.default
+    users.fossil.default
 
     server.vpsfree.default
     server.nginx.default
@@ -59,6 +60,7 @@
       "files.tase.lv"
       "smash.tase.lv"
       "arcan.tase.lv"
+      "durden.tase.lv"
     ];
   };
 
@@ -91,7 +93,6 @@
       kTLS = true;
 
       locations."/" = {
-        # scgi_pass localhost:${toString config.services.fossil.repositories.smash.port};
         extraConfig = ''
           include ${nginxPackage}/conf/scgi_params;
           scgi_pass localhost:9000;
@@ -106,10 +107,23 @@
       kTLS = true;
 
       locations."/" = {
-        # scgi_pass localhost:${toString config.services.fossil.repositories.arcan.port};
         extraConfig = ''
           include ${nginxPackage}/conf/scgi_params;
           scgi_pass localhost:9001;
+          scgi_param SCRIPT_NAME "";
+        '';
+      };
+    };
+
+    "durden.tase.lv" = {
+      useACMEHost = "tase.lv";
+      forceSSL = true;
+      kTLS = true;
+
+      locations."/" = {
+        extraConfig = ''
+          include ${nginxPackage}/conf/scgi_params;
+          scgi_pass localhost:9002;
           scgi_param SCRIPT_NAME "";
         '';
       };
@@ -128,6 +142,12 @@
       localhost = true;
       baseUrl = "https://arcan.tase.lv/";
       port = 9001;
+    };
+    durden = {
+      useSCGI = true;
+      localhost = true;
+      baseUrl = "https://durden.tase.lv/";
+      port = 9002;
     };
   };
 
