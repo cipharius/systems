@@ -11,6 +11,7 @@
 
     users.root.default
     users.valts.default
+    users.emily.default
     users.git.default
     users.fossil.default
 
