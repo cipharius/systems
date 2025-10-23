@@ -26,7 +26,13 @@
 
     network.ssh.default
     network.acme.default
+    # network.wireguard.tase-server
+    network.wireguard.home-tase-lv
   ];
+
+  networking.firewall.allowedTCPPorts = [6680];
+  networking.nat.enable = true;
+  networking.nat.externalInterface = "wg0";
 
   services.fail2ban.enable = true;
   services.fail2ban.jails = {
@@ -157,6 +163,22 @@
   services.filebrowser.openFirewall = false;
   services.filebrowser.settings.address = "127.0.0.1";
   services.filebrowser.settings.port = 5983;
+
+  services.znc.enable = true;
+  services.znc.mutable = false;
+  services.znc.useLegacyConfig = false;
+  services.znc.openFirewall = true;
+  services.znc.config = {
+      User.cipharius = {
+          Admin = true;
+          Nick = "cipharius";
+          Pass.password = {
+              Method = "sha256";
+              Hash = "2259f5d13303ed38a1f55074d4e4c3cfd8663a3cc099b03e67d71897a4203dcd";
+              Salt = "yONQ1at;1GInbImShX?J";
+          };
+      };
+  };
 
   nixpkgs.hostPlatform = "x86_64-linux";
 

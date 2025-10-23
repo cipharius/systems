@@ -34,5 +34,7 @@ in {
   "wireguard-hpcr-private.age".publicKeys = allKeys;
   "wireguard-cronos-private.age".publicKeys = allKeys;
   "wireguard-tase-private.age".publicKeys = mcg-valts;
+  "wireguard-tase-server-private.age".publicKeys = allKeys;
+  "wireguard-home-tase-lv-private.age".publicKeys = allKeys;
   "wpa-psk.age".publicKeys = allKeys;
 }
