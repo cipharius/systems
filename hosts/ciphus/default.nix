@@ -61,6 +61,8 @@
     '';
   };
 
+  services.openssh.settings.PasswordAuthentication = false;
+
   security.acme.defaults.webroot = "/var/lib/acme/acme-challenge";
   security.acme.certs."tase.lv" = {
     group = "nginx";
