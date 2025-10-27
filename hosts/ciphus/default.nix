@@ -180,6 +180,12 @@
               Hash = "2259f5d13303ed38a1f55074d4e4c3cfd8663a3cc099b03e67d71897a4203dcd";
               Salt = "yONQ1at;1GInbImShX?J";
           };
+          Network.libera = {
+              Server = "irc.libera.chat +6697";
+              Nick = "cipharius";
+              Chan = { "#arcan" = {}; };
+              LoadModule = [ "sasl" ];
+          };
       };
   };
 
